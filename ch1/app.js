@@ -73,6 +73,77 @@
 //         return barHeight + 'px';
 //     });
 
+// let dataset = [5, 10, 15, 20, 25];
+// let w = 500;
+// let h = 50;
+
+// let svg = d3.select("body")
+//                 .append("svg")
+//                 .attr("width", w) 
+//                 .attr("height", h);
+
+// let circles = svg.selectAll("circle")
+//                     .data(dataset)
+//                     .enter()
+//                     .append("circle");
+
+// circles.attr("cx", (d, i) => (i * 50) + 25)
+//         .attr("cy", h / 2)
+//         .attr("r", d => d)
+//         .attr('fill', '#008bc4')
+//         .attr('stroke', '#db2400')
+//         .attr("stroke-width", d => d / 2);
+
+let w           = 500,
+    h           = 100,
+    barPadding  = 1;
+
+
+let dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+    11, 12, 15, 20, 18, 17, 16, 18, 23, 25];
+
+// d3.select("body")
+//     .selectAll("div")
+//         .data(dataset)
+//         .enter()
+//         .append("div")
+//         .attr("class", "bar")
+//         .style("height", d => {
+//             let barHeight = d * 5;
+//             return barHeight + "px";
+//         });
+
+//Create SVG element
+let svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+// Next, instead of creating divs, we generate rects and add them to svg:
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+            .attr("x", (d, i) => i * (w / dataset.length))
+            .attr("y", d => h - (d * 4))
+            .attr("width", w / dataset.length - barPadding)
+            .attr("height", d => d * 4)
+            .attr("fill", d => `rgb(0, ${Math.round(d * 10)}, ${Math.round(d * 8)} )`);
+
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+            .text(d => d)
+            .attr('x', (d,i) => i * (w / dataset.length) + (w / dataset.length - barPadding) / 2)
+            .attr('y', d => h - (d * 4) + 14)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "11px")
+            .attr("fill", "white")
+            // center text element in bar
+            .attr("text-anchor", "middle");
+
+
 
 
 
