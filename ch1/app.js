@@ -94,13 +94,14 @@
 //         .attr('stroke', '#db2400')
 //         .attr("stroke-width", d => d / 2);
 
-let w           = 500,
-    h           = 100,
+let w           = 300,
+    h           = 200,
     barPadding  = 1;
 
 
 let dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-    11, 12, 15, 20, 18, 17, 16, 18, 23, 25];
+               11, 12, 15, 20, 18, 17, 16, 18, 23, 25, 
+               13,11, 12, 15, 20, 18, 17, 16, 18, 23, 25];
 
 // d3.select("body")
 //     .selectAll("div")
@@ -125,9 +126,9 @@ let svg = d3.select("body")
         .enter()
         .append("rect")
             .attr("x", (d, i) => i * (w / dataset.length))
-            .attr("y", d => h - (d * 4))
+            .attr("y", d => h - (d * 8))
             .attr("width", w / dataset.length - barPadding)
-            .attr("height", d => d * 4)
+            .attr("height", d => d * 8)
             .attr("fill", d => `rgb(0, ${Math.round(d * 10)}, ${Math.round(d * 8)} )`);
 
     svg.selectAll("text")
@@ -135,10 +136,11 @@ let svg = d3.select("body")
         .enter()
         .append("text")
             .text(d => d)
+            // multiplication and division done first
             .attr('x', (d,i) => i * (w / dataset.length) + (w / dataset.length - barPadding) / 2)
-            .attr('y', d => h - (d * 4) + 14)
+            .attr('y', d => h - (d * 8) + 10)
             .attr("font-family", "sans-serif")
-            .attr("font-size", "11px")
+            .attr("font-size", "7px")
             .attr("fill", "white")
             // center text element in bar
             .attr("text-anchor", "middle");
