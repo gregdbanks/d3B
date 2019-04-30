@@ -1,6 +1,6 @@
 // --------------------------Simple Scatter-Plot with ES2015-------------------------------------
 
-let w = 500
+let w = 600
 let h = 400
 
 let dataset = [
