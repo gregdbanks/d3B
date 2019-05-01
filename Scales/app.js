@@ -2,6 +2,7 @@
 
 
 // ~ Mike's Margin Convention ~
+//  before we just used w, h variables
 let margin = {
     top: 20,
     right: 10,
@@ -10,7 +11,7 @@ let margin = {
 }
 
 let width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom //instead of w, and h
+    height = 300 - margin.top - margin.bottom //instead of w, and h
 // ~ ------------------------ ~
 
 
@@ -27,7 +28,8 @@ let dataset = [
     [475, 44],
     [25, 67],
     [85, 21],
-    [220, 88]
+    [220, 88],
+    [600,150]
 ]
 
 let svg = d3.select("body")
@@ -45,9 +47,10 @@ let yScale = d3.scaleLinear()
     .domain([0, d3.max(dataset, d => d[1])]) 
     .range([height , 0]);
 
-let rScale = d3.scaleLinear()
+// replaced scaleLinear with scaleSqrt to get area for radius
+let aScale = d3.scaleSqrt()
     .domain([0, d3.max(dataset, d => d[1])])
-    .range([2, 5]);
+    .range([0, 20]);
 
 
 
@@ -59,7 +62,7 @@ svg.selectAll("circle") // <-- No longer "rect"
     .append("circle")
     .attr("cx", d => xScale(d[0]))
     .attr("cy", d => yScale(d[1]))
-    .attr("r", d => rScale(d[1]));
+    .attr("r", d => aScale(d[1]));
 
 svg.selectAll("text") // <-- Note "text", not "circle" or "rect"
     .data(dataset)
@@ -74,7 +77,11 @@ svg.selectAll("text") // <-- Note "text", not "circle" or "rect"
 
 
 
-
+var scale = d3.scaleLinear()
+    .domain([0.123, 4.567])
+    .range([0, 500])
+    .nice();
+console.log(scale(150))
 
 
 
