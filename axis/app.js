@@ -10,17 +10,18 @@ var dataset = [
               ];
 //Create scale functions
 var xScale = d3.scaleLinear()
-                     .domain([0, d3.max(dataset, function(d) { return d[0]; })])
+                     .domain([0, d3.max(dataset, d => d[0])])
                      .range([padding, w - padding * 2]);
 var yScale = d3.scaleLinear()
-                     .domain([0, d3.max(dataset, function(d) { return d[1]; })])
+                     .domain([0, d3.max(dataset, d => d[1])])
                      .range([h - padding, padding]);
 var aScale = d3.scaleSqrt()
-                     .domain([0, d3.max(dataset, function(d) { return d[1]; })])
+                     .domain([0, d3.max(dataset, d => d[1])])
                      .range([0, 10]);
 //Define X axis
 var xAxis = d3.axisBottom()
-                  .scale(xScale);
+                  .scale(xScale)
+                  .ticks(5);
 //Create SVG element
 var svg = d3.select("body")
             .append("svg")
@@ -31,29 +32,17 @@ svg.selectAll("circle")
    .data(dataset)
    .enter()
    .append("circle")
-   .attr("cx", function(d) {
-           return xScale(d[0]);
-   })
-   .attr("cy", function(d) {
-           return yScale(d[1]);
-   })
-   .attr("r", function(d) {
-           return aScale(d[1]);
-   });
+   .attr("cx", d => xScale(d[0]))
+   .attr("cy", d => yScale(d[1]))
+   .attr("r", d => aScale(d[1]));
 //Create labels
 svg.selectAll("text")
    .data(dataset)
    .enter()
    .append("text")
-   .text(function(d) {
-           return d[0] + "," + d[1];
-   })
-   .attr("x", function(d) {
-           return xScale(d[0]);
-   })
-   .attr("y", function(d) {
-           return yScale(d[1]);
-   })
+   .text(d => d[0] + "," + d[1])
+   .attr("x", d => xScale(d[0]))
+   .attr("y", d => yScale(d[1]))
    .attr("font-family", "sans-serif")
    .attr("font-size", "11px")
    .attr("fill", "red");
