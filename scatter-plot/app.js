@@ -30,6 +30,20 @@ svg.selectAll("circle") // <-- No longer "rect"
         .attr("cy", d => d[1] + 20)
         .attr("r", d => Math.sqrt(h - d[1]));
 
+svg.selectAll("text") // <-- Note "text", not "circle" or "rect"
+    .data(dataset)
+    .enter()
+    .append("text") // <-- Same here!
+    .text(d => d[0] + "," + d[1])
+    .attr("x", d =>d[0])
+    .attr("y", d =>d[1])
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "11px")
+    .attr("fill", "#008bc4");
+
+
+
+
 
 
 
