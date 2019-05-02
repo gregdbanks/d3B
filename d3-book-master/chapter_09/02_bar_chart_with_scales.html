@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: A flexible, scalable bar chart</title>
+		<script type="text/javascript" src="../d3.js"></script>
+		<style type="text/css">
+			/* No style rules here yet */		
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+			//Width and height
+			let w = 600;
+			let h = 250;
+			
+			let dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
+			let xScale = d3.scaleBand()
+							.domain(d3.range(dataset.length))
+							.rangeRound([0, w])
+							.round(true)
+							.paddingInner(0.05);
+
+			let yScale = d3.scaleLinear()
+							.domain([0, d3.max(dataset)])
+							.range([0, h]);
+			
+			//Create SVG element
+			let svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			//Create bars
+			svg.selectAll("rect")
+			   .data(dataset)
+			   .enter()
+			   .append("rect")
+			   .attr("x", (d, i) => xScale(i))
+			   .attr("y", d => h - yScale(d))
+			//    old way: .attr('width', w / dataset.length - barPadding)
+			//                 v^
+			   .attr("width", xScale.bandwidth())
+			   .attr("height", d => yScale(d))
+			   .attr("fill", d => "rgb(0, 0, " + Math.round(d * 10) + ")");
+
+			//Create labels
+			svg.selectAll("text")
+			   .data(dataset)
+			   .enter()
+			   .append("text")
+			   .text(d => d)
+			   .attr("text-anchor", "middle")
+			   .attr("x", (d, i) => xScale(i) + xScale.bandwidth() / 2)
+			   .attr("y", d => h - yScale(d) + 16)
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "16px")
+			   .attr("fill", "white");
+			
+		</script>
+	</body>
+</html>

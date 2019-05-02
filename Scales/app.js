@@ -77,11 +77,11 @@ svg.selectAll("text") // <-- Note "text", not "circle" or "rect"
 
 
 
-var scale = d3.scaleLinear()
+let scale = d3.scaleLinear()
     .domain([0.123, 4.567])
     .range([0, 500])
     .nice();
-console.log(scale(150))
+
 
 
 
