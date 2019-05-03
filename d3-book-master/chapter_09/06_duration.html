@@ -89,7 +89,7 @@
 					svg.selectAll("rect")
 					   .data(dataset)
 					   .transition()
-					   .delay((d, i) => i * 1000) 
+					   .delay((d, i) => i * 100) 
 					   .duration(1000)
 					   .ease(d3.easeCubicInOut)
 								// <-- Controlled duration, 1000ms = 1s
@@ -107,7 +107,7 @@
 					svg.selectAll("text")
 					   .data(dataset)
 					   .transition()
-					   .delay((d, i) => i * 1000) 
+					   .delay((d, i) => i * 100) 
 					   .duration(1000)
 					   .ease(d3.easeCubicInOut)
 

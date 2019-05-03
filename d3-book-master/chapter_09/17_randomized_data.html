@@ -93,19 +93,11 @@
 					svg.selectAll("rect")
 					   .data(dataset)
 					   .transition()
-					   .delay(function(d, i) {
-						   return i / dataset.length * 1000;
-					   })
+					   .delay((d, i) => i / dataset.length * 1000)
 					   .duration(500)
-					   .attr("y", function(d) {
-					   		return h - yScale(d);
-					   })
-					   .attr("height", function(d) {
-					   		return yScale(d);
-					   })
-					   .attr("fill", function(d) {
-							return "rgb(0, 0, " + Math.round(d * 10) + ")";
-					   });
+					   .attr("y", d => h - yScale(d))
+					   .attr("height", d => yScale(d))
+					   .attr("fill", d => "rgb(0, 0, " + Math.round(d * 10) + ")");
 
 					//Update all labels
 					svg.selectAll("text")
@@ -115,15 +107,28 @@
 						   return i / dataset.length * 1000;
 					   })
 					   .duration(500)
-					   .text(function(d) {
-					   		return d;
-					   })
+					   .text(d => d)
 					   .attr("x", function(d, i) {
 					   		return xScale(i) + xScale.bandwidth() / 2;
 					   })
-					   .attr("y", function(d) {
-					   		return h - yScale(d) + 14;
+					   .attr("y", function(d){
+						   if(d <= 1){
+							return h - yScale(d) - 2
+						   } else {
+						    return h - yScale(d) + 14
+						   }
+					   })
+					   .on('end', function(d){
+						   if(d <= 1){
+							 d3.select(this)
+							    .attr('fill', 'black')
+						   } else {
+							 d3.select(this)
+							    .attr('fill', 'white')
+						   }
+						  
 					   });
+					   
 					   				
 				});
 
