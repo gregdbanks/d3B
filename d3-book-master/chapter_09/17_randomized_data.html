@@ -111,7 +111,24 @@
 					   .attr("x", function(d, i) {
 					   		return xScale(i) + xScale.bandwidth() / 2;
 					   })
-					   .attr("y", d => h - yScale(d) + 10);
+					   .attr("y", function(d){
+						   if(d <= 1){
+							return h - yScale(d) - 2
+						   } else {
+						    return h - yScale(d) + 14
+						   }
+					   })
+					   .on('end', function(d){
+						   if(d <= 1){
+							 d3.select(this)
+							    .attr('fill', 'black')
+						   } else {
+							 d3.select(this)
+							    .attr('fill', 'white')
+						   }
+						  
+					   });
+					   
 					   				
 				});
 

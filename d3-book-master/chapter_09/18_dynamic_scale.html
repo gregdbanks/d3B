@@ -83,7 +83,7 @@
 
 					//New values for dataset
 					var numValues = dataset.length;						 		//Count original length of dataset
-					var maxValue = 100;											//Highest possible new value
+					var maxValue = 500;											//Highest possible new value
 					dataset = [];  						 				 		//Initialize empty array
 					for (var i = 0; i < numValues; i++) {				 		//Loop numValues times
 						var newNumber = Math.floor(Math.random() * maxValue);	//New random integer (0-100)
@@ -101,7 +101,7 @@
 					   .delay(function(d, i) {
 						   return i / dataset.length * 1000;
 					   })
-					   .duration(500)
+					   .duration(300)
 					   .attr("y", function(d) {
 					   		return h - yScale(d);
 					   })
@@ -119,7 +119,7 @@
 					   .delay(function(d, i) {
 						   return i / dataset.length * 1000;
 					   })
-					   .duration(500)
+					   .duration(300)
 					   .text(function(d) {
 					   		return d;
 					   })
