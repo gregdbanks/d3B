@@ -31,11 +31,11 @@
 
 			//Create scale functions
 			var xScale = d3.scaleLinear()
-								 .domain([0, d3.max(dataset, function(d) { return d[0]; })])
+								 .domain([0, d3.max(dataset, d => d[0])])
 								 .range([padding, w - padding * 2]);
 
 			var yScale = d3.scaleLinear()
-								 .domain([0, d3.max(dataset, function(d) { return d[1]; })])
+								 .domain([0, d3.max(dataset, d => d[1])])
 								 .range([h - padding, padding]);
 
 			//Define X axis
@@ -71,12 +71,8 @@
 			   .data(dataset)
 			   .enter()
 			   .append("circle")
-			   .attr("cx", function(d) {
-			   		return xScale(d[0]);
-			   })
-			   .attr("cy", function(d) {
-			   		return yScale(d[1]);
-			   })
+			   .attr("cx", d => xScale(d[0]))
+			   .attr("cy", d => yScale(d[1]))
 			   .attr("r", 2);
 			
 			//Create X axis
@@ -98,39 +94,35 @@
 				.on("click", function() {
 
 					//New values for dataset
-					var numValues = dataset.length;						 		//Count original length of dataset
-					var maxRange = Math.random() * 1000;						//Max range of new values
+					let numValues = dataset.length;						 		//Count original length of dataset
+					let maxRange = Math.random() * 1000;						//Max range of new values
 					dataset = [];  						 				 		//Initialize empty array
-					for (var i = 0; i < numValues; i++) {				 		//Loop numValues times
-						var newNumber1 = Math.floor(Math.random() * maxRange);	//New random integer
-						var newNumber2 = Math.floor(Math.random() * maxRange);	//New random integer
+					for (let i = 0; i < numValues; i++) {				 		//Loop numValues times
+						let newNumber1 = Math.floor(Math.random() * maxRange);	//New random integer
+						let newNumber2 = Math.floor(Math.random() * maxRange);	//New random integer
 						dataset.push([newNumber1, newNumber2]);					//Add new number to array
 					}
 					
 					//Update scale domains
-					xScale.domain([0, d3.max(dataset, function(d) { return d[0]; })]);
-					yScale.domain([0, d3.max(dataset, function(d) { return d[1]; })]);
+					xScale.domain([0, d3.max(dataset, d => d[0])]);
+					yScale.domain([0, d3.max(dataset, d => d[1])]);
 
 					//Update all circles
 					svg.selectAll("circle")
 					   .data(dataset)
 					   .transition()
-					   .duration(1000)
+					   .duration(500)
 					   .on("start", function() {
 						   d3.select(this)
-						     .attr("fill", "magenta")
-						     .attr("r", 7);
+						     .attr("fill", "#6753ff")
+						     .attr("r", 4);
 					   })
-					   .attr("cx", function(d) {
-					   		return xScale(d[0]);
-					   })
-					   .attr("cy", function(d) {
-					   		return yScale(d[1]);
-					   })
+					   .attr("cx", d => xScale(d[0]))
+					   .attr("cy", d => yScale(d[1]))
 					   .on("end", function() {
 						   d3.select(this)
 						     .transition()
-						     .duration(1000)
+						     .duration(2000)
 						     .attr("fill", "black")
 						     .attr("r", 2);
 					   });
