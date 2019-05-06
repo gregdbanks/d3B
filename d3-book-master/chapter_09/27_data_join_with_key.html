@@ -15,10 +15,10 @@
 		<script type="text/javascript">
 
 			//Width and height
-			var w = 600;
-			var h = 250;
+			let w = 600;
+			let h = 250;
 			
-			var dataset = [ { key: 0, value: 5 },		//dataset is now an array of objects.
+			let dataset = [ { key: 0, value: 5 },		//dataset is now an array of objects.
 							{ key: 1, value: 10 },		//Each object has a 'key' and a 'value'.
 							{ key: 2, value: 13 },
 							{ key: 3, value: 19 },
@@ -39,22 +39,22 @@
 							{ key: 18, value: 23 },
 							{ key: 19, value: 25 } ];
 
-			var xScale = d3.scaleBand()
+			let xScale = d3.scaleBand()
 							.domain(d3.range(dataset.length))
 							.rangeRound([0, w])
 							.paddingInner(0.05);
 			
-			var yScale = d3.scaleLinear()
-							.domain([0, d3.max(dataset, function(d) { return d.value; })])
+			let yScale = d3.scaleLinear()
+							.domain([0, d3.max(dataset, d => d.value)])
 							.range([0, h]);
 			
 			//Define key function, to be used when binding data
-			var key = function(d) {
+			let key = function(d) {
 				return d.key;
 			};
 			
 			//Create SVG element
-			var svg = d3.select("body")
+			let svg = d3.select("body")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
@@ -64,35 +64,21 @@
 			   .data(dataset, key)		//Bind data with custom key function
 			   .enter()
 			   .append("rect")
-			   .attr("x", function(d, i) {
-			   		return xScale(i);
-			   })
-			   .attr("y", function(d) {
-			   		return h - yScale(d.value);
-			   })
+			   .attr("x", (d, i) => xScale(i))
+			   .attr("y", d => h - yScale(d.value))
 			   .attr("width", xScale.bandwidth())
-			   .attr("height", function(d) {
-			   		return yScale(d.value);
-			   })
-			   .attr("fill", function(d) {
-					return "rgb(0, 0, " + (d.value * 10) + ")";
-			   });
+			   .attr("height", d => yScale(d.value))
+			   .attr("fill", d => "rgb(0, 0, " + (d.value * 10) + ")");
 
 			//Create labels
 			svg.selectAll("text")
 			   .data(dataset, key)		//Bind data with custom key function
 			   .enter()
 			   .append("text")
-			   .text(function(d) {
-			   		return d.value;
-			   })
+			   .text(d => d.value)
 			   .attr("text-anchor", "middle")
-			   .attr("x", function(d, i) {
-			   		return xScale(i) + xScale.bandwidth() / 2;
-			   })
-			   .attr("y", function(d) {
-			   		return h - yScale(d.value) + 14;
-			   })
+			   .attr("x", (d, i) => xScale(i) + xScale.bandwidth() / 2)
+			   .attr("y", d => h - yScale(d.value) + 14)
 			   .attr("font-family", "sans-serif")
 			   .attr("font-size", "11px")
 			   .attr("fill", "white");
@@ -109,46 +95,34 @@
 					
 					//Update scale domains
 					xScale.domain(d3.range(dataset.length));
-					yScale.domain([0, d3.max(dataset, function(d) { return d.value; })]);
+					yScale.domain([0, d3.max(dataset, d => d.value)]);
 
 					//Select…
-					var bars = svg.selectAll("rect")
+					let bars = svg.selectAll("rect")
 						.data(dataset, key);		//Bind data with custom key function
 					
-					//Enter…
-					bars.enter()
-						.append("rect")
-						.attr("x", w)
-						.attr("y", function(d) {
-							return h - yScale(d.value);
-						})
-						.attr("width", xScale.bandwidth())
-						.attr("height", function(d) {
-							return yScale(d.value);
-						})
-						.attr("fill", function(d) {
-							return "rgb(0, 0, " + (d.value * 10) + ")";
-						})
-						.merge(bars)	//Update…
-						.transition()
-						.duration(500)
-						.attr("x", function(d, i) {
-							return xScale(i);
-						})
-						.attr("y", function(d) {
-							return h - yScale(d.value);
-						})
-						.attr("width", xScale.bandwidth())
-						.attr("height", function(d) {
-							return yScale(d.value);
-						});
+						//Enter…
+						bars.enter()
+							.append("rect")
+							.attr("x", w)
+							.attr("y", d => h - yScale(d.value))
+							.attr("width", xScale.bandwidth())
+							.attr("height", d => yScale(d.value))
+							.attr("fill", d => "rgb(0, 0, " + (d.value * 10) + ")")
+							.merge(bars)	//Update…
+							.transition()
+							.duration(500)
+							.attr("x", (d, i) => xScale(i))
+							.attr("y", d => h - yScale(d.value))
+							.attr("width", xScale.bandwidth())
+							.attr("height", d => yScale(d.value));
 
-					//Exit…
-					bars.exit()
-						.transition()
-						.duration(500)
-						.attr("x", -xScale.bandwidth())  // <-- Exit stage left
-						.remove();
+						//Exit…
+						bars.exit()
+							.transition()
+							.duration(500)
+							.attr("x", -xScale.bandwidth())  // <-- Exit stage left
+							.remove();
 
 
 
@@ -156,19 +130,35 @@
 					//
 					//Exercise: Modify this code to remove the correct label each time!
 					//
-					svg.selectAll("text")
-					   .data(dataset, key)		//Bind data with custom key function
-					   .transition()
-					   .duration(500)
-					   .text(function(d) {
-					   		return d.value;
-					   })
-					   .attr("x", function(d, i) {
-							return xScale(i) + xScale.bandwidth() / 2;
-					   })
-					   .attr("y", function(d) {
-							return h - yScale(d.value) + 14;
-					   });
+					// svg.selectAll("text")
+					//    .data(dataset, key)		//Bind data with custom key function
+					//    .transition()
+					//    .duration(500)
+					//    .text(d => d.value)
+					//    .attr("x", (d, i) => xScale(i) + xScale.bandwidth() / 2)
+					//    .attr("y", d => h - yScale(d.value) + 14);
+
+					let text = svg.selectAll("text")
+									.data(dataset, key);
+
+						text.enter()
+							.append("text")
+							.text(d => d.value)
+							.attr("text-anchor", "middle")
+							.attr("font-family", "sans-serif")
+							.attr("font-size", "11px")
+							.attr("fill", "white")
+							.merge(text) 
+							.transition() 
+							.duration(500)
+							.attr("x", (d, i) => xScale(i) + xScale.bandwidth() / 2) 
+							.attr("y", d => h - yScale(d.value) + 14)
+
+						text.exit() 
+							.transition() 
+							.duration(500)
+							.attr("x", -xScale.bandwidth())
+							.remove();
 
 				});
 
