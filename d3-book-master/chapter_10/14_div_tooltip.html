@@ -7,7 +7,7 @@
 		<style type="text/css">
 
 			rect:hover {
-				fill: orange;
+				fill: #6753ff;
 			}
 			
 			#tooltip {
@@ -15,7 +15,7 @@
 				width: 200px;
 				height: auto;
 				padding: 10px;
-				background-color: white;
+				background-color: #cde9ff;
 				-webkit-border-radius: 10px;
 				-moz-border-radius: 10px;
 				border-radius: 10px;
@@ -30,6 +30,7 @@
 			}
 			
 			#tooltip p {
+				color: #575b60;
 				margin: 0;
 				font-family: sans-serif;
 				font-size: 16px;
@@ -72,24 +73,16 @@
 			   .data(dataset)
 			   .enter()
 			   .append("rect")
-			   .attr("x", function(d, i) {
-			   		return xScale(i);
-			   })
-			   .attr("y", function(d) {
-			   		return h - yScale(d);
-			   })
+			   .attr("x", (d, i) => xScale(i))
+			   .attr("y", d => h - yScale(d))
 			   .attr("width", xScale.bandwidth())
-			   .attr("height", function(d) {
-			   		return yScale(d);
-			   })
-			   .attr("fill", function(d) {
-					return "rgb(0, 0, " + Math.round(d * 10) + ")";
-			   })
+			   .attr("height", d => yScale(d))
+			   .attr("fill", d => "rgb(0, 0, " + Math.round(d * 10) + ")")
 			   .on("mouseover", function(d) {
 
 					//Get this bar's x/y values, then augment for the tooltip
-					var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
-					var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h / 2;
+					let xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
+					let yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h / 2;
 
 					//Update the tooltip position and value
 					d3.select("#tooltip")
@@ -113,16 +106,16 @@
 			   });
 
 			//Define sort order flag
-			var sortOrder = false;
+			 sortOrder = false;
 			
 			//Define sort function
-			var sortBars = function() {
+			let sortBars = () => {
 
 				//Flip value of sortOrder
 			   	sortOrder = !sortOrder;
 
 				svg.selectAll("rect")
-				   .sort(function(a, b) {
+				   .sort((a, b) => {
 				   		if (sortOrder) {
 					   		return d3.ascending(a, b);
 				   		} else {
@@ -130,13 +123,9 @@
 				   		}
 				   	})
 				   .transition()
-				   .delay(function(d, i) {
-					   return i * 50;
-				   })
+				   .delay((d, i) => i * 50)
 				   .duration(1000)
-				   .attr("x", function(d, i) {
-				   		return xScale(i);
-				   });
+				   .attr("x", (d, i) => xScale(i));
 
 			};			
 			

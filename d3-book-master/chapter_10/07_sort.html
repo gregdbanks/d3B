@@ -85,17 +85,13 @@
 			   .attr("fill", "white");
 			
 			//Define sort function
-			var sortBars = function() {
+			let sortBars = function() {
 
 				svg.selectAll("rect")
-				   .sort(function(a, b) {
-					   return d3.ascending(a, b);
-				   	})
+				   .sort((a, b) => d3.descending(a, b))
 				   .transition()
 				   .duration(1000)
-				   .attr("x", function(d, i) {
-				   		return xScale(i);
-				   });
+				   .attr("x", (d, i)=> xScale(i));
 
 			};			
 			

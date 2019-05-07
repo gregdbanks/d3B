@@ -82,13 +82,13 @@
 			var sortOrder = false;
 			
 			//Define sort function
-			var sortBars = function() {
+			let sortBars = () => {
 
 				//Flip value of sortOrder
 			   	sortOrder = !sortOrder;
 
 				svg.selectAll("rect")
-				   .sort(function(a, b) {
+				   .sort((a, b) => {
 				   		if (sortOrder) {
 					   		return d3.ascending(a, b);
 				   		} else {
@@ -96,10 +96,10 @@
 				   		}
 				   	})
 				   .transition()
+				   .delay((d, i) => i * 50)
 				   .duration(1000)
-				   .attr("x", function(d, i) {
-				   		return xScale(i);
-				   });
+				   .attr("x", (d, i) => xScale(i));
+
 
 			};			
 			
