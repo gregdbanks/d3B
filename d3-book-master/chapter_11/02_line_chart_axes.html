@@ -41,7 +41,7 @@
 				var dataset = data;
 
 				//Print data to console as table, for verification
-				//console.table(dataset, ["date", "average"]);
+				console.table(dataset, ["date", "average"]);
 
 				//Create scale functions
 				xScale = d3.scaleTime()
@@ -68,6 +68,7 @@
 
 				//Define line generator
 				line = d3.line()
+							.defined(d => d.average >= 0)
 							.x(function(d) { return xScale(d.date); })
 							.y(function(d) { return yScale(d.average); });
 				

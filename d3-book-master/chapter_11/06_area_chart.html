@@ -91,16 +91,16 @@
 
 				//Define area generators
 				area = d3.area()
-							.defined(function(d) { return d.average >= 0; })
-							.x(function(d) { return xScale(d.date); })
-							.y0(function() { return yScale.range()[0]; })
-							.y1(function(d) { return yScale(d.average); });
+							.defined(d => d.average >= 0)
+							.x(d => xScale(d.date))
+							.y0(() => yScale.range()[0])
+							.y1(d => yScale(d.average));
 
 				dangerArea = d3.area()
-							.defined(function(d) { return d.average >= 350; })
-							.x(function(d) { return xScale(d.date); })
-							.y0(function() { return yScale(350); })
-							.y1(function(d) { return yScale(d.average); });
+							.defined(d => d.average >= 350)
+							.x(d => xScale(d.date))
+							.y0(() => yScale(350))
+							.y1(d => yScale(d.average));
 
 				//Create SVG element
 				var svg = d3.select("body")
