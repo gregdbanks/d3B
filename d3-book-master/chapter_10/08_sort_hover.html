@@ -82,14 +82,10 @@
 			var sortBars = function() {
 
 				svg.selectAll("rect")
-				   .sort(function(a, b) {
-					   return d3.ascending(a, b);
-				   	})
-				   .transition()
+				   .sort((a, b) => d3.ascending(a, b))
+				   .transition('sortBars')
 				   .duration(1000)
-				   .attr("x", function(d, i) {
-				   		return xScale(i);
-				   });
+				   .attr("x", (d, i) => xScale(i));
 
 			};			
 			
