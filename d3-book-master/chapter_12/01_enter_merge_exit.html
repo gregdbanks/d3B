@@ -20,7 +20,8 @@
 		let w = 600;
 		let h = 250;
 
-		let dataset = [{
+		let dataset = [
+			{
 				key: 0,
 				value: 5
 			}, //dataset is now an array of objects.
@@ -100,7 +101,7 @@
 				key: 19,
 				value: 25
 			}
-		];
+			];
 
 		let xScale = d3.scaleBand()
 						.domain(d3.range(dataset.length))
@@ -119,20 +120,46 @@
 					.append("svg")
 						.attr("width", w)
 						.attr("height", h);
-		//
+
+		
 		// Log selections, so we can inspect them closely
-		//
+		
 		// * Uncomment these one at a time, and explore
 		// the results in the console! *
-		//
-		// console.log('svg.selectAll("rect")');
-		// console.log(svg.selectAll("rect"));
-		// console.log('svg.selectAll("rect").data(dataset, key)');
-		// console.log(svg.selectAll("rect").data(dataset, key));
-		// console.log('svg.selectAll("rect").data(dataset, key).enter()');
-		// console.log(svg.selectAll("rect").data(dataset, key).enter());
-		// console.log('svg.selectAll("rect").data(dataset, key).enter().append("rect")');
-		// console.log(svg.selectAll("rect").data(dataset, key).enter().append("rect"));
+
+		
+
+
+		
+		// console.log(
+			
+		// 	svg.selectAll("rect"));
+
+		
+		// console.log(
+			
+		// 	svg.selectAll("rect")
+		// 	     .data(dataset, key));
+
+		// console.log(
+			
+		// 	svg.selectAll("rect")
+		// 	     .data(dataset, key)
+		// 	     .enter());
+
+
+		// console.log(
+			
+		// 	svg.selectAll("rect")
+		// 	     .data(dataset, key) 	//once this happens we have enter and exit methods
+		// 	     .enter()				//takes empty group and inserts EnterNode x20 (no more enter and exit)
+		// 		.append("rect"));		//turns enter nodes to actual rect elements
+
+
+
+
+
+
 		//Create bars
 		svg.selectAll("rect")
 				.data(dataset, key)
@@ -148,7 +175,7 @@
 				.data(dataset, key)
 				.enter()
 			.append("text")
-				.text(d =>d.value)
+				.text(d => d.value)
 				.attr("text-anchor", "middle")
 				.attr("x", (d, i) => xScale(i) + xScale.bandwidth() / 2)
 				.attr("y", d => h - yScale(d.value) + 14)
@@ -157,7 +184,7 @@
 				.attr("fill", "white");
 		//On click, update with new data
 		d3.selectAll("p")
-			.on("click", () => {
+			.on("click", function() {
 				//See which p was clicked
 				let paragraphID = d3.select(this).attr("id");
 
@@ -186,7 +213,7 @@
 				// console.log(svg.selectAll("rect").data(dataset, key));
 				//Select…
 				let bars = svg.selectAll("rect")
-							.data(dataset, key);
+								.data(dataset, key);
 				// console.log('bars.enter()');
 				// console.log(bars.enter());
 				// console.log('bars.enter().append("rect")');
@@ -196,39 +223,27 @@
 				//Enter…
 				bars.enter()
 					.append("rect")
-					.attr("x", w)
-					.attr("y", function (d) {
-						return h - yScale(d.value);
-					})
-					.attr("width", xScale.bandwidth())
-					.attr("height", function (d) {
-						return yScale(d.value);
-					})
-					.attr("fill", function (d) {
-						return "rgb(0, 0, " + (d.value * 10) + ")";
-					})
+						.attr("x", w)
+						.attr("y", d => yScale(d.value))
+						.attr("width", xScale.bandwidth())
+						.attr("height", d => yScale(d.value))
+						.attr("fill", d => "rgb(0, 0, " + (d.value * 10) + ")")
 					.merge(bars) //Update…
-					.transition()
-					.duration(500)
-					.attr("x", function (d, i) {
-						return xScale(i);
-					})
-					.attr("y", function (d) {
-						return h - yScale(d.value);
-					})
-					.attr("width", xScale.bandwidth())
-					.attr("height", function (d) {
-						return yScale(d.value);
-					});
+						.transition()
+						.duration(500)
+						.attr("x", (d, i) => xScale(i))
+						.attr("y", d => h - yScale(d.value))
+						.attr("width", xScale.bandwidth())
+						.attr("height", d => yScale(d.value));
 				// console.log('bars.exit()');
-				// console.log(bars.exit());
+				console.log(bars.exit());
 				// console.log('bars.exit().remove()');
-				// console.log(bars.exit().remove());
-				//Exit…
+				console.log(bars.exit().remove());
+				// //Exit…
 				bars.exit()
-					.transition()
-					.duration(500)
-					.attr("x", -xScale.bandwidth())
+						.transition()
+						.duration(500)
+						.attr("x", -xScale.bandwidth())
 					.remove();
 				//Update all labels
 

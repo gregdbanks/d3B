@@ -29,58 +29,54 @@
 		<script type="text/javascript">
 
 			//Width and height
-			var w = 600;
-			var h = 300;
-			var padding = 40;
+			let w = 600;
+			let h = 300;
+			let padding = 40;
 			
 			//Dynamic, random dataset
-			var dataset = [];					//Initialize empty array
-			var numDataPoints = 200;			//Number of dummy data points to create
-			var xRange = 1000;					//Max range of new x values
-			var yRange = 1000;					//Max range of new y values
-			for (var i = 0; i < numDataPoints; i++) {					//Loop numDataPoints times
-				var newNumber1 = Math.floor(Math.random() * xRange);	//New random integer
-				var newNumber2 = Math.floor(Math.random() * yRange);	//New random integer
+			let dataset = [];					//Initialize empty array
+			let numDataPoints = 200;			//Number of dummy data points to create
+			let xRange = 1000;					//Max range of new x values
+			let yRange = 1000;					//Max range of new y values
+			for (let i = 0; i < numDataPoints; i++) {					//Loop numDataPoints times
+				let newNumber1 = Math.floor(Math.random() * xRange);	//New random integer
+				let newNumber2 = Math.floor(Math.random() * yRange);	//New random integer
 				dataset.push([newNumber1, newNumber2]);					//Add new number to array
 			}
 
 			//Create scale functions
-			var xScale = d3.scaleLinear()
+			let xScale = d3.scaleLinear()
 								 .domain([0, 1000])
 								 .range([padding, w - padding / 2]);
 
-			var yScale = d3.scaleLinear()
+			let yScale = d3.scaleLinear()
 								 .domain([0, 1000])
 								 .range([h - padding, padding / 2]);
 
 			//Define X axis
-			var xAxis = d3.axisBottom()
+			let xAxis = d3.axisBottom()
 							  .scale(xScale)
 							  .ticks(5);
 
 			//Define Y axis
-			var yAxis = d3.axisLeft()
+			let yAxis = d3.axisLeft()
 							  .scale(yScale)
 							  .ticks(5);
 
 			//Create SVG element
-			var svg = d3.select("body")
+			let svg = d3.select("body")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
 
 			//Create circles
-			var allCircles = svg.selectAll("circle")
-			   .data(dataset)
-			   .enter()
-			   .append("circle")
-			   .attr("cx", function(d) {
-			   		return xScale(d[0]);
-			   })
-			   .attr("cy", function(d) {
-			   		return yScale(d[1]);
-			   })
-			   .attr("r", 2.5);
+			let allCircles = svg.selectAll("circle")
+								  .data(dataset)
+								  .enter()
+								.append("circle")
+								  .attr("cx", d => xScale(d[0]))
+								  .attr("cy", d => yScale(d[1]))
+								  .attr("r", 2.5);
 			
 			//Create X axis
 			svg.append("g")
@@ -98,13 +94,13 @@
 			d3.selectAll("input")
 				.on("click", function() {
 
-					var view = d3.select(this).node().value;
+					let view = d3.select(this).node().value;
 
 					//Reset all to black
 					allCircles.attr("fill", "black");
 
-					var midpoint = 500;
-					var colors = d3.schemeCategory10;
+					let midpoint = 500;
+					let colors = d3.schemeCategory10;
 
 					//Filter and highlight based on different conditions
 					switch (view) {
@@ -113,49 +109,37 @@
 							
 							var distance = 300;
 
-							allCircles.filter(function(d) {
-									return Math.abs(midpoint - d[0]) < distance && Math.abs(midpoint - d[1]) < distance;
-								})
-								.attr("fill", colors[1]);
+							allCircles.filter(d => Math.abs(midpoint - d[0]) < distance && Math.abs(midpoint - d[1]) < distance)
+										.attr("fill", colors[1]);
 
 							break;
 
 						case "edges":
 							
-							var distance = 300;
+					var distance = 300;
 
-							allCircles.filter(function(d) {
-									return Math.abs(midpoint - d[0]) > distance || Math.abs(midpoint - d[1]) > distance;
-								})
-								.attr("fill", colors[3]);
+							allCircles.filter(d => Math.abs(midpoint - d[0]) > distance || Math.abs(midpoint - d[1]) > distance)
+										.attr("fill", colors[3]);
 
 							break;
 
 						case "quadrants":
 							
 							//Top left
-							allCircles.filter(function(d) {
-									return d[0] <= midpoint && d[1] >= midpoint;
-								})
-								.attr("fill", colors[0]);
+							allCircles.filter(d => d[0] <= midpoint && d[1] >= midpoint)
+										.attr("fill", colors[0]);
 							
 							//Top right
-							allCircles.filter(function(d) {
-									return d[0] > midpoint && d[1] >= midpoint;
-								})
-								.attr("fill", colors[1]);
+							allCircles.filter(d => d[0] > midpoint && d[1] >= midpoint)
+										.attr("fill", colors[1]);
 
 							//Bottom right
-							allCircles.filter(function(d) {
-									return d[0] > midpoint && d[1] < midpoint;
-								})
-								.attr("fill", colors[2]);
+							allCircles.filter(d => d[0] > midpoint && d[1] < midpoint)
+										.attr("fill", colors[2]);
 
 							//Bottom left
-							allCircles.filter(function(d) {
-									return d[0] <= midpoint && d[1] < midpoint;
-								})
-								.attr("fill", colors[3]);
+							allCircles.filter(d => d[0] <= midpoint && d[1] < midpoint)
+										.attr("fill", colors[3]);
 
 							break;
 
