@@ -23,10 +23,11 @@
 				{ apples: 7, oranges: 23, grapes: 35 },
 				{ apples: 23, oranges: 17, grapes: 43 }
 			];
-			console.table(dataset)
+			
 			//Set up stack method
 			let stack = d3.stack()
-						  .keys([ "apples", "oranges", "grapes" ]);
+						  .keys([ "apples", "oranges", "grapes" ])
+						  .order(d3.stackOrderDescending);
 
 			//Data, stacked
 			let series = stack(dataset);
@@ -41,7 +42,7 @@
 				.domain([0,				
 					d3.max(dataset, d => d.apples + d.oranges + d.grapes)
 				])
-				.range([0, h]);
+				.range([h, 0]);
 				
 			//Easy colors accessible via a 10-step ordinal scale
 			let colors = d3.scaleOrdinal(d3.schemeCategory10);
@@ -65,8 +66,8 @@
 							    .enter()
 							  .append("rect")
 								.attr("x", (d, i) => xScale(i))
-								.attr("y", d => yScale(d[0]))
-								.attr("height", d => yScale(d[1]) - yScale(d[0]))
+								.attr("y", d => yScale(d[1]))
+								.attr("height", d => yScale(d[0]) - yScale(d[1]))
 								.attr("width", xScale.bandwidth());
 						
 		</script>
