@@ -12,20 +12,20 @@
 		<script type="text/javascript">
 
 			//Width and height
-			var w = 500;
-			var h = 300;
+			let w = 500;
+			let h = 300;
 
 			//Define map projection
-			var projection = d3.geoAlbersUsa()
+			let projection = d3.geoAlbersUsa()
 								   .translate([w/2, h/2])
 								   .scale([500]);
 
 			//Define path generator
-			var path = d3.geoPath()
+			let path = d3.geoPath()
 							 .projection(projection);
 
 			//Create SVG element
-			var svg = d3.select("body")
+			let svg = d3.select("body")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
@@ -39,7 +39,8 @@
 				   .enter()
 				   .append("path")
 				   .attr("d", path)
-				   .style("fill", "steelblue");
+				   .style("fill", "#6753ff")
+				   .style("stroke", "#70767d");
 		
 			});
 			
