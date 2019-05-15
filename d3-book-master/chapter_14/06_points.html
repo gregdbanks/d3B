@@ -35,8 +35,8 @@
 			//Create SVG element
 			let svg = d3.select("body")
 						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
+						  .attr("width", w)
+						  .attr("height", h);
 
 			//Load in agriculture data
 			d3.csv("us-ag-productivity.csv", function(data) {
@@ -76,22 +76,22 @@
 
 					//Bind data and create one path per GeoJSON feature
 					svg.selectAll("path")
-					   .data(json.features)
-					   .enter()
+					     .data(json.features)
+					     .enter()
 					   .append("path")
-					   .attr("d", path)
-					   .style("fill", function(d) {
-					   		//Get data value
-					   		let value = d.properties.value;
-					   		
-					   		if (value) {
-					   			//If value exists…
-						   		return color(value);
-					   		} else {
-					   			//If value is undefined…
-						   		return "#ccc";
-					   		}
-					   });
+					     .attr("d", path)
+						.style("fill", function(d) {
+								//Get data value
+								let value = d.properties.value;
+								
+								if (value) {
+									//If value exists…
+									return color(value);
+								} else {
+									//If value is undefined…
+									return "#ccc";
+								}
+						});
 
 					//Load in cities data
 					d3.csv("us-cities.csv", function(data) {

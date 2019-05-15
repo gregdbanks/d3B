@@ -37,42 +37,42 @@
 		<script type="text/javascript">
 
 			//Width and height
-			var w = 500;
-			var h = 300;
+			let w = 500;
+			let h = 300;
 
 			//Define map projection
-			var projection = d3.geoAlbersUsa()
+			let projection = d3.geoAlbersUsa()
 								   .translate([0, 0]);
 
 			//Define path generator
-			var path = d3.geoPath()
+			let path = d3.geoPath()
 							 .projection(projection);
 				 
 			//Define quantize scale to sort data values into buckets of color
-			var color = d3.scaleQuantize()
+			let color = d3.scaleQuantize()
 								.range(["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"]);
 								//Colors taken from colorbrewer.js, included in the D3 download
 
 			//Number formatting for population values
-			var formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
+			let formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
 
 			//Create SVG element
-			var svg = d3.select("body")
+			let svg = d3.select("body")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
 
 			//Define what to do when panning or zooming
-			var zooming = function(d) {
+			let zooming = function(d) {
 
 				//Log out d3.event.transform, so you can see all the goodies inside
 				//console.log(d3.event.transform);
 
 				//New offset array
-				var offset = [d3.event.transform.x, d3.event.transform.y];
+				let offset = [d3.event.transform.x, d3.event.transform.y];
 
 				//Calculate new scale
-				var newScale = d3.event.transform.k * 2000;
+				let newScale = d3.event.transform.k * 2000;
 
 				//Update projection with new offset and scale
 				projection.translate(offset)
@@ -93,14 +93,14 @@
 			}
 
 			//Then define the zoom behavior
-			var zoom = d3.zoom()
+			let zoom = d3.zoom()
 						 .on("zoom", zooming);
 
 			//The center of the country, roughly
-			var center = projection([-97.0, 39.0]);
+			let center = projection([-97.0, 39.0]);
 
 			//Create a container in which all zoom-able elements will live
-			var map = svg.append("g")
+			let map = svg.append("g")
 						.attr("id", "map")
 						.call(zoom)  //Bind the zoom behavior
   						.call(zoom.transform, d3.zoomIdentity  //Then apply the initial transform
@@ -130,15 +130,15 @@
 
 					//Merge the ag. data and GeoJSON
 					//Loop through once for each ag. data value
-					for (var i = 0; i < data.length; i++) {
+					for (let i = 0; i < data.length; i++) {
 				
-						var dataState = data[i].state;				//Grab state name
-						var dataValue = parseFloat(data[i].value);	//Grab data value, and convert from string to float
+						let dataState = data[i].state;				//Grab state name
+						let dataValue = parseFloat(data[i].value);	//Grab data value, and convert from string to float
 				
 						//Find the corresponding state inside the GeoJSON
-						for (var j = 0; j < json.features.length; j++) {
+						for (let j = 0; j < json.features.length; j++) {
 						
-							var jsonState = json.features[j].properties.name;
+							let jsonState = json.features[j].properties.name;
 				
 							if (dataState == jsonState) {
 						
@@ -160,7 +160,7 @@
 					   .attr("d", path)
 					   .style("fill", function(d) {
 					   		//Get data value
-					   		var value = d.properties.value;
+					   		let value = d.properties.value;
 					   		
 					   		if (value) {
 					   			//If value exists…
@@ -207,12 +207,12 @@
 			});
 			
 			//Create panning buttons
-			var createPanButtons = function() {
+			let createPanButtons = function() {
 
 				//Create the clickable groups
 
 				//North
-				var north = svg.append("g")
+				let north = svg.append("g")
 					.attr("class", "pan")	//All share the 'pan' class
 					.attr("id", "north");	//The ID will tell us which direction to head
 
@@ -228,7 +228,7 @@
 					.html("&uarr;")
 				
 				//South
-				var south = svg.append("g")
+				let south = svg.append("g")
 					.attr("class", "pan")
 					.attr("id", "south");
 
@@ -244,7 +244,7 @@
 					.html("&darr;")
 
 				//West
-				var west = svg.append("g")
+				let west = svg.append("g")
 					.attr("class", "pan")
 					.attr("id", "west");
 
@@ -260,7 +260,7 @@
 					.html("&larr;")
 
 				//East
-				var east = svg.append("g")
+				let east = svg.append("g")
 					.attr("class", "pan")
 					.attr("id", "east");
 
@@ -281,14 +281,14 @@
 					.on("click", function() {
 
 						//Set how much to move on each click
-						var moveAmount = 50;
+						let moveAmount = 50;
 						
 						//Set x/y to zero for now
-						var x = 0;
-						var y = 0;
+						let x = 0;
+						let y = 0;
 						
 						//Which way are we headed?
-						var direction = d3.select(this).attr("id");
+						let direction = d3.select(this).attr("id");
 
 						//Modify the offset, depending on the direction
 						switch (direction) {
@@ -317,12 +317,12 @@
 			};
 			
 			//Create zoom buttons
-			var createZoomButtons = function() {
+			let createZoomButtons = function() {
 
 				//Create the clickable groups
 
 				//Zoom in button
-				var zoomIn = svg.append("g")
+				let zoomIn = svg.append("g")
 					.attr("class", "zoom")	//All share the 'zoom' class
 					.attr("id", "in")		//The ID will tell us which direction to head
 					.attr("transform", "translate(" + (w - 110) + "," + (h - 70) + ")");
@@ -339,7 +339,7 @@
 					.text("+");
 				
 				//Zoom out button
-				var zoomOut = svg.append("g")
+				let zoomOut = svg.append("g")
 					.attr("class", "zoom")
 					.attr("id", "out")
 					.attr("transform", "translate(" + (w - 70) + "," + (h - 70) + ")");
@@ -361,10 +361,10 @@
 					.on("click", function() {
 
 						//Set how much to scale on each click
-						var scaleFactor;
+						let scaleFactor;
 						
 						//Which way are we headed?
-						var direction = d3.select(this).attr("id");
+						let direction = d3.select(this).attr("id");
 
 						//Modify the k scale value, depending on the direction
 						switch (direction) {
