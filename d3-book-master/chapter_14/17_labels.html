@@ -205,13 +205,9 @@
 						.enter()
 						.append("text")
 						.attr("class", "label")
-						.attr("x", function(d) {
-							 return path.centroid(d)[0];
-						})
-						.attr("y", function(d) {
-							 return path.centroid(d)[1];
-						})
-						.text(function(d) {
+						.attr("x", d => path.centroid(d)[0])
+						.attr("y", d => path.centroid(d)[1])
+						.text(d => {
 							 if (d.properties.value) {
 								 return formatDecimals(d.properties.value);
 							 };

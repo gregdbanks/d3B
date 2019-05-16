@@ -18,52 +18,46 @@
 		<script type="text/javascript">
 
 			//Width and height
-			var w = 300;
-			var h = 300;
+			let w = 300;
+			let h = 300;
 
-			var dataset = [ 5, 10, 20, 45, 6, 25 ];
+			let dataset = [ 5, 10, 20, 45, 6, 25 ];
 
-			var outerRadius = w / 2;
-			var innerRadius = 0;
-			var arc = d3.arc()
+			let outerRadius = w / 2;
+			let innerRadius = w / 3;
+			let arc = d3.arc()
 						.innerRadius(innerRadius)
 						.outerRadius(outerRadius);
 			
-			var pie = d3.pie();
+			let pie = d3.pie();
 			
 			//Easy colors accessible via a 10-step ordinal scale
-			var color = d3.scaleOrdinal(d3.schemeCategory10);
+			let color = d3.scaleOrdinal(d3.schemeCategory10);
 
 			//Create SVG element
-			var svg = d3.select("body")
+			let svg = d3.select("body")
 						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
+						  .attr("width", w)
+						  .attr("height", h);
 			
 			//Set up groups
-			var arcs = svg.selectAll("g.arc")
-						  .data(pie(dataset))
-						  .enter()
+			let arcs = svg.selectAll("g.arc")
+						    .data(pie(dataset))
+						    .enter()
 						  .append("g")
-						  .attr("class", "arc")
-						  .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
+						    .attr("class", "arc")
+						    .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
 			
 			//Draw arc paths
 			arcs.append("path")
-			    .attr("fill", function(d, i) {
-			    	return color(i);
-			    })
-			    .attr("d", arc);
+			      .attr("fill", (d, i) => color(i))
+			      .attr("d", arc);
 			
 			//Labels
 			arcs.append("text")
-			    .attr("transform", function(d) {
-			    	return "translate(" + arc.centroid(d) + ")";
-			    })
-			    .attr("text-anchor", "middle")
-			    .text(function(d) {
-			    	return d.value;
-			    });
+			      .attr("transform", d => `translate(${arc.centroid(d)})`)
+			      .attr("text-anchor", "middle")
+			      .text(d => d.value);
 						
 		</script>
 	</body>

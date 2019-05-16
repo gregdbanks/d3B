@@ -58,7 +58,7 @@
 			var dragging = function(d) {
 
 				//Log out d3.event, so you can see all the goodies inside
-				//console.log(d3.event);
+				console.log(d3.event);
 
 				//Get the current (pre-dragging) translation offset
 				var offset = projection.translate();
@@ -90,8 +90,15 @@
 
 			//Create a container in which all pan-able elements will live
 			var map = svg.append("g")
-						.attr("id", "map")
-						.call(drag);  //Bind the dragging behavior
+							.attr("id", "map")
+							.call(drag);  //Bind the dragging behavior
+
+			map.append("rect")
+					.attr("x", 0)
+					.attr("y", 0)
+					.attr("width", w)
+					.attr("height", h)
+					.attr("opacity", 0);
 
 			//Load in agriculture data
 			d3.csv("us-ag-productivity.csv", function(data) {
